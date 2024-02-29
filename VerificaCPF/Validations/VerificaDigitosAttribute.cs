@@ -6,11 +6,6 @@ public class VerificaDigitosAttribute : ValidationAttribute
 {
     protected override ValidationResult? IsValid(object? value, ValidationContext validationContext)
     {
-        if(value == null || string.IsNullOrEmpty(value.ToString()))
-        {
-            return ValidationResult.Success;
-        }
-
         int digitoVerificador1 = 0;
         int digitoVerificador2 = 0;
         int indice = 0;
@@ -19,7 +14,7 @@ public class VerificaDigitosAttribute : ValidationAttribute
         const int tamanhoCpf = 11;
 
         string cpf = value.ToString();
-
+        
         string subCpf = cpf.Substring(0, 9);
         char[] subCpfChar = subCpf.ToCharArray();
 
