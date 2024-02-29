@@ -1,20 +1,24 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using VerificaCPF.Models;
+using VerificaCPF.Validations;
 
 namespace VerificaCPF.Controllers;
 
 [ApiController]
-public class ValidaCPFController : Controller
+public class ValidaCPFController : ControllerBase
 {
     
     [HttpGet("ValidacaoCPF")]
     public IActionResult ValidacaoCPF (string cpf)
     {
-        bool valido = ValidaCPF.cpfIsValido(cpf);
-        if (valido)
+        var validator = new VerificaDigitosAttribute();
+        var result = validator.IsValid(cpf);
+
+        if(result)
         {
-            return Ok($"O CPF {cpf} é válido");
+            return Ok("CPF válido.");
         }
-        return BadRequest($"O CPF {cpf} é inválido");
+
+        return BadRequest("CPF inválido.");
+
     }
 }

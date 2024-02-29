@@ -1,11 +1,16 @@
-﻿namespace VerificaCPF.Models;
+﻿using System.ComponentModel.DataAnnotations;
 
-public static class ValidaCPF
+namespace VerificaCPF.Validations;
+
+public class VerificaDigitosAttribute : ValidationAttribute
 {
-    public static string CPF { get; set; }
-
-    public static bool cpfIsValido(string cpf)
+    protected override ValidationResult? IsValid(object? value, ValidationContext validationContext)
     {
+        if(value == null || string.IsNullOrEmpty(value.ToString()))
+        {
+            return ValidationResult.Success;
+        }
+
         int digitoVerificador1 = 0;
         int digitoVerificador2 = 0;
         int indice = 0;
@@ -13,33 +18,32 @@ public static class ValidaCPF
         int resto = 0;
         const int tamanhoCpf = 11;
 
-        if (string.IsNullOrEmpty(cpf)) return false;
-        if (cpf.Length != 11) return false;
+        string cpf = value.ToString();
 
         string subCpf = cpf.Substring(0, 9);
         char[] subCpfChar = subCpf.ToCharArray();
-        
+
         for (int i = 10; i >= 2; i--)
         {
             int digito = subCpfChar[indice] - '0';
             soma += digito * i;
-            indice++;            
+            indice++;
         }
 
         resto = soma % tamanhoCpf;
 
-        if(resto >= 2)
+        if (resto >= 2)
         {
             digitoVerificador1 = tamanhoCpf - resto;
         }
 
         char[] incluiDigito1 = new char[10];
-        subCpfChar.CopyTo(incluiDigito1,0);
-        incluiDigito1[incluiDigito1.Length-1] = digitoVerificador1.ToString()[0];
+        subCpfChar.CopyTo(incluiDigito1, 0);
+        incluiDigito1[incluiDigito1.Length - 1] = digitoVerificador1.ToString()[0];
         indice = 0;
         soma = 0;
 
-        for(int i = 11; i>= 2; i--)
+        for (int i = 11; i >= 2; i--)
         {
             int digito = incluiDigito1[indice] - '0';
             soma += digito * i;
@@ -49,20 +53,18 @@ public static class ValidaCPF
         resto = 0;
         resto = soma % tamanhoCpf;
 
-        if(resto >= 2)
+        if (resto >= 2)
         {
             digitoVerificador2 = tamanhoCpf - resto;
         }
 
         char[] cpfCompleto = cpf.ToCharArray();
 
-        if (cpfCompleto[9]-'0' != digitoVerificador1 || cpfCompleto[10]-'0' != digitoVerificador2 || subCpf == "123456789")
+        if (cpfCompleto[9] - '0' != digitoVerificador1 || cpfCompleto[10] - '0' != digitoVerificador2 || subCpf == "123456789")
         {
-            return false;
+            return new ValidationResult($"O CPF: {cpf} é inválido!");
         }
 
-        return true;
-
+        return ValidationResult.Success;
     }
-
 }
