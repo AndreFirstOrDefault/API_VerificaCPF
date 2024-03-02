@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using VerificaCPF.Services;
 using VerificaCPF.Validations;
 
 namespace VerificaCPF.Controllers;
@@ -7,7 +8,7 @@ namespace VerificaCPF.Controllers;
 public class ValidaCPFController : ControllerBase
 {
     
-    [HttpGet("ValidacaoCPF")]
+    [HttpGet("ValidarCPF")]
     public IActionResult ValidacaoCPF (string cpf)
     {
         if(cpf == null || cpf.Length != 11)
@@ -33,5 +34,12 @@ public class ValidaCPFController : ControllerBase
 
         return BadRequest("CPF inválido.");
 
+    }
+
+    [HttpGet("GeradorCPF")]
+    public IActionResult GeradorCPF()
+    {
+        var cpf = GeradorDeCPFServices.GeradorDeCPF();
+        return Ok($"CPF gerado: {cpf}");
     }
 }

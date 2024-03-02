@@ -1,64 +1,29 @@
-﻿Console.Write("Digite o cpf, somente números: ");
-string cpf = Console.ReadLine();
-
-string subCpf = cpf.Substring(0, 9);
-char[] subCpfChar = subCpf.ToCharArray();
-int somaDigito = 0;
-int indice = 0;
-const int tamanhoCpf = 11;
-
-for (int i = 10; i >= 2; i--)
+﻿Random rnd = new Random();
+string cpf = "";
+for (int i = 0; i < 9; i++)
 {
-    int digito = subCpfChar[indice] - '0';
-    somaDigito += digito * i;
-    indice++;
+    cpf += rnd.Next(0, 9).ToString();
+}
+    
+
+int soma = 0;
+for (int i = 0; i < 9; i++)
+{
+    soma += int.Parse(cpf[i].ToString()) * (10 - i);
 }
 
-// Console.WriteLine("Soma digito 1: " + somaDigito1);
-int resto = somaDigito % tamanhoCpf;
-int digitoVerificador1 = 0;
+int resto = soma % 11;
+cpf += resto < 2 ? "0" : (11 - resto).ToString();
 
-if (resto >= 2)
+soma = 0;
+for (int i = 0; i < 10; i++)
 {
-    digitoVerificador1 = tamanhoCpf - resto;
+    soma += int.Parse(cpf[i].ToString()) * (11 - i);
 }
 
-// Console.WriteLine("O primeiro digito verificador é: {0}",digitoVerificador1);
+resto = soma % 11;
+cpf += resto < 2 ? "0" : (11 - resto).ToString();
 
-// Calculando o segundo dígito
-char[] novoSubCpf = new char[10];
-subCpfChar.CopyTo(novoSubCpf, 0);
-novoSubCpf[novoSubCpf.Length - 1] = digitoVerificador1.ToString()[0];
-somaDigito = 0;
-indice = 0;
+Console.WriteLine(cpf);
+Console.ReadKey();
 
-for (int i = 11; i >= 2; i--)
-{
-    int digito = novoSubCpf[indice] - '0';
-    somaDigito += digito * i;
-    indice++;
-
-}
-
-resto = 0;
-int digitoVerificador2 = 0;
-resto = somaDigito % tamanhoCpf;
-if (resto >= 2)
-{
-    digitoVerificador2 = tamanhoCpf - resto;
-}
-
-// Console.WriteLine($"O segundo digito verificador é: {digitoVerificador2}");
-char[] cpfCompleto = cpf.ToCharArray();
-int digitoprimeiro = cpfCompleto[9] - '0';
-int digitosegundo = cpfCompleto[10] - '0';
-
-if (digitoprimeiro != digitoVerificador1 || digitosegundo != digitoVerificador2 || subCpf == "123456789")
-{
-    Console.WriteLine($"\n#### O CPF: {cpf} é inválido ###");
-}
-else
-{
-    Console.WriteLine($"\n### O CPF: {cpf} é válido ###");
-}
-Console.ReadLine();
