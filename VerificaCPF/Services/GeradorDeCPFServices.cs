@@ -9,7 +9,7 @@ public static class GeradorDeCPFServices
         string cpf = "";
         for (int i = 0; i < 9; i++)
         {
-            cpf += rnd.Next(0, 9).ToString();
+            cpf += rnd.Next(0, 10).ToString();
         }
 
 

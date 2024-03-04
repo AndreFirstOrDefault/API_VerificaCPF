@@ -8,18 +8,18 @@ namespace VerificaCPF.Controllers;
 public class ValidaCPFController : ControllerBase
 {
     
-    [HttpGet("ValidarCPF")]
+    [HttpGet("ValidarCPF xxxxxxxxxxx")]
     public IActionResult ValidacaoCPF (string cpf)
     {
-        if(cpf == null || cpf.Length != 11)
+        if (!ContadorDeCaracteresServices.ContadorDeCaracteres(cpf,11))
         {
             return BadRequest("O CPF deve conter 11 numeros!");
         }
-
+        
         var validator2 = new VerificaCaracteresAttribute();
-        var resdult2 = validator2.IsValid(cpf);
+        var result2 = validator2.IsValid(cpf);
 
-        if(resdult2 == false)
+        if(result2 == false)
         {
             return BadRequest("O CPF deve conter somente numeros!");
         }
@@ -36,7 +36,37 @@ public class ValidaCPFController : ControllerBase
 
     }
 
-    [HttpGet("GeradorCPF")]
+    [HttpGet("ValidarCPF xxx.xxx.xxx-xx")]
+    public IActionResult ValidacaoCPFCompleto(string cpf)
+    {
+        if (!ContadorDeCaracteresServices.ContadorDeCaracteres(cpf, 14))
+        {
+            return BadRequest("O CPF deve conter 14 caracteres!");
+        }
+
+        var validator = new VerificaCaracteresAttribute();
+        var result = validator.IsValid(cpf);
+
+        if (result == false)
+        {
+            return BadRequest("O CPF não deve conter letras!");
+        }
+
+        var cpfFormatado = FormataCPFServices.FormataCPF(cpf);
+
+        var validator2 = new VerificaDigitosAttribute();
+        var result2 = validator2.IsValid(cpfFormatado);
+
+        if(result2)
+        {
+            return Ok("CPF válido");
+        }
+
+        return BadRequest("CPF inválido");
+    }
+
+
+    [HttpGet("GeradorCPF xxxxxxxxxxx")]
     public IActionResult GeradorCPF()
     {
         var cpf = GeradorDeCPFServices.GeradorDeCPF();

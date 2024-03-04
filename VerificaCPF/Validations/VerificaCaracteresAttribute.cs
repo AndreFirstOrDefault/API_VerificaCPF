@@ -12,7 +12,7 @@ public class VerificaCaracteresAttribute : ValidationAttribute
         {
             if (char.IsLetter(caractere))
             {
-                return new ValidationResult("O cpf deve conter apenas numeros!");
+                return new ValidationResult("O cpf não deve conter letras!");
             }
         }
 
