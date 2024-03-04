@@ -72,4 +72,12 @@ public class ValidaCPFController : ControllerBase
         var cpf = GeradorDeCPFServices.GeradorDeCPF();
         return Ok($"CPF gerado: {cpf}");
     }
+
+    [HttpGet("GeradorCPF xxx.xxx.xxx-xx")]
+    public IActionResult GeradorCPFMascara()
+    {
+        var cpf = GeradorDeCPFServices.GeradorDeCPF();
+        var cpfMascara = FormataCPFServices.FormataCPFMascara(cpf);
+        return Ok($"CPF gerado: {cpfMascara}");
+    }
 }

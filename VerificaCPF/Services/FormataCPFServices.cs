@@ -9,4 +9,13 @@ public static class FormataCPFServices
 
         return cpf;
     }
+
+    public static string FormataCPFMascara(string cpf)
+    {
+        var cpfMascara1 = cpf.Insert(3, ".");
+        var cpfMascara2 = cpfMascara1.Insert(7, ".");
+        var cpfMascara3 = cpfMascara2.Insert(11, "-");
+
+        return cpfMascara3;
+    }
 }
