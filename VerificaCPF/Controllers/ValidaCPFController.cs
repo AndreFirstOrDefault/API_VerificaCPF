@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Mvc;
-using VerificaCPF.Models;
+﻿using Microsoft.AspNetCore.Mvc;
 using VerificaCPF.Services;
 using VerificaCPF.Validations;
 
