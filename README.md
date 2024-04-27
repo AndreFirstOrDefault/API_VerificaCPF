@@ -9,6 +9,8 @@ Este projeto é uma Web API construída em .NET e C# para geração e validaçã
 - Geração de CPF sem máscara
 - Geração de CPF com máscara
 - Validação automática de CPF com ou sem máscara
+- Validação de CPFs sem máscara (lista)
+- Validação de CPFs com máscara (lista)
 
 ## Tecnologias Utilizadas
 
