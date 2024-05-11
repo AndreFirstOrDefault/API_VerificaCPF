@@ -73,6 +73,18 @@ public class ValidaCPFController : ControllerBase
         return Ok($"CPF gerado: {cpf}");
     }
 
+    public string GeradorDeCPF()
+    {
+        var cpf = GeradorDeCPFServices.GeradorDeCPF();
+        return cpf;
+    }
+
+    public string GeradorDeCPFSemMascara()
+    {
+        var cpf = GeradorDeCPFServices.GeradorDeCPF();
+        return cpf;
+    }
+
     [HttpGet("GeradorCPF xxx.xxx.xxx-xx")]
     public IActionResult GeradorCPFMascara()
     {
@@ -173,4 +185,25 @@ public class ValidaCPFController : ControllerBase
 
         return Ok(cpfsFormatados);
     }
+
+    public List<string> GeradorDeCpfsComMascaraForms(int quantidade)
+    {
+        List<string> cpfs = new List<string>();
+        cpfs = GeradorDeCPFsSemMascaraService.GeradorCpfsSemMascara(quantidade).ToList();
+        string cpfFormatado = "";
+        List<string> cpfsFormatados = new List<string>();
+
+        foreach (var cpf in cpfs)
+        {
+            cpfFormatado = FormataCPFServices.FormataCPFMascara(cpf);
+            cpfsFormatados.Add(cpfFormatado);
+        }
+
+        return cpfsFormatados;
+    }
+
+    public List<string> GeradorDeCpfsForms(int quantidade)
+    {
+        return GeradorDeCPFsSemMascaraService.GeradorCpfsSemMascara(quantidade).ToList();
+     }
 }
